@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no">
+  <meta name="keywords" content="experiment">
+  <meta name="description" content="experiment">
+  <meta property="og:title" content="experiment">
+  <meta property="og:url" content="">
+  <script src="{{ static_url('_dist/doc.js') }}"></script>
+</head>
+<body>
+<div id="container-background" style="background-image: url('/static/static/img/dummy1.png')">
+  <h2>Please take a rest and prepare for the next recording</h2>
+  <ol>
+    <!-- <li>Press a button on E4 wristband.</li> -->
+    <li>Calibrate  eye tracker.</li>
+    <li>Start reading a document. <!-- <span style="color:#ffffff;">(Press space key while you are interested in the text.)</span>--></li>
+  </ol>
+</div>
+<div class="test1" id="container-up">
+  <h1 style="text-align:center;" id="title">{{ title }}</h1>
+  <div class="lefttop dot"></div>
+  <div class="leftbottom dot"></div>
+  <div class="righttop dot"></div>
+  <div class="rightbottom dot"></div>
+  {% for i,b in enumerate(body, start = 1) %}
+    <p class="paragraph" id="para-{{i}}"> {{ b }} <p/>
+
+  {% end %}
+</div>
+<!-- <script>
+$('#container-up').find('p').each(function() {
+    $(this).html(function (index, oldHtml) {
+        return oldHtml.replace(/([\w']+)/g, '<span class="word">$1</span>');
+    });
+});
+</script> -->
+
+<!-- <script>
+var wo = document.getElementsByClassName("word");
+var rect;
+rect = wo[0].getBoundingClientRect();
+co = []
+for(var i = 0; i < wo.length; i++)
+{
+  rect = wo[i].getBoundingClientRect();
+  var x = rect.left;
+  var y = rect.top;
+  co.push([wo[i],x,y]);
+
+}
+// console.log(rect);
+
+</script> -->
+
+<!-- <script>
+$(function()
+{
+  window.coordinates= [];
+  var i=1;
+   $(".word").each(function () {
+
+        var txt= $(this).text();
+        // var w= $(this).width();
+        // var h= $(this).height();
+        //var oh= $(this).outerHeight();
+        //var ow= $(this).outerWidth();
+        // var offsets = $(this).offset();
+
+        var t= $(this).offset().top;
+        var l= $(this).offset().left;
+        var b= t+ $(this).outerHeight();
+        var r= l+ $(this).outerWidth();
+        // var mx= $(this).position().top;
+        // var my= $(this).position().left;
+        coordinates.push([i,txt,t,l,b,r]);
+        i++;
+ });
+console.log(coordinates);
+});
+</script> -->
+<script>
+function download_csv() {
+    var csv = 'ID,WORD,TOP,LEFT,BOTTOM,RIGHT\n';
+    coordinates.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+    });
+
+    console.log(csv);
+
+    var pom = document.createElement('a');
+    var csvContent=csv; //here we load our csv data
+    var blob = new Blob([csvContent],{type: 'text/csv;charset=utf-8;'});
+    var url = URL.createObjectURL(blob);
+    pom.href = url;
+    pom.setAttribute('download', 'foo.csv');
+    pom.click();
+
+
+}
+</script>
+
+<!-- <button onclick="download_csv()">Download CSV</button>  -->
+
+<div id="container-bottom">
+  <div class="content" id="content-1">
+    <p class="content-text">Based on the content provide a rating for the document</p>
+    <form>
+        <input type="radio" name="q1"> 1 – very hard to read <br>
+        <input type="radio" name="q1"> 2 – moderately hard <br>
+        <input type="radio" name="q1"> 3 – easy to read <br>
+        <input type="radio" name="q1"> 4 – very easy to read <br>
+    </form>
+  </div>
+  <!--<div class="content" id="content-2">
+    <p class="content-text">Q2. How much of the article did you find interesting?</p>
+    <form>
+        <input type="radio" name="q2"> None of it. 0%<br>
+        <input type="radio" name="q2"> Some of it. 30%<br>
+        <input type="radio" name="q2"> Most of it. 60%<br>
+        <input type="radio" name="q2"> All of it. 100%<br>
+    </form>
+  </div>
+    <div class="content" id="content-3">
+    <p class="content-text">Q3. How much of the words in the article did you find difficult to comprehend?</p>
+    <form>
+        <input type="radio" name="q3"> None of it. 0%<br>
+        <input type="radio" name="q3"> Some of it. 30%<br>
+        <input type="radio" name="q3"> Most of it. 60%<br>
+        <input type="radio" name="q3"> All of it. 100%<br>
+    </form>
+  </div>
+    <div class="content" id="content-4">
+    <p class="content-text">Q4. How much of the article captured your attention?</p>
+    <form>
+        <input type="radio" name="q4"> None of it. 0%<br>
+        <input type="radio" name="q4"> Some of it. 30%<br>
+        <input type="radio" name="q4"> Most of it. 60%<br>
+        <input type="radio" name="q4"> All of it. 100%<br>
+    </form>
+  </div>
+  <div class="content" id="content-5">
+    <p class="content-text">Q5. Did you find it tedious(tiring) to read?</p>
+    <form>
+        <input type="radio" name="q5"> None of it. 0%<br>
+        <input type="radio" name="q5"> Some of it. 30%<br>
+        <input type="radio" name="q5"> Most of it. 60%<br>
+        <input type="radio" name="q5"> All of it. 100%<br>
+    </form>
+  </div> -->
+  <div class="content" id="content-2">
+    <p class="content-text">Q1. {{ question }}</p>
+    <form>
+      {% for c in choices %}
+        <input type="radio" name="q1"> {{ c }}<br>
+      {% end %}
+    </form>
+  </div>
+</div>
+<div id="container-button">
+  <button id="button-calibrate" class="btn btn-info">Calibration</button>
+  <button id="button-start-reading" class="btn btn-info">Start reading</button>
+  <button id="button-next-page" class="btn btn-primary">Next page</button>
+  <button id="button-start-solving" class="btn btn-primary">Finish reading</button>
+  <button id="button-next" class="next btn btn-primary">Next question</button>
+  <button id="button-last" class="last btn btn-primary">Last question</button>
+  <button id="button-stop-recording" class="btn btn-danger">Finish recording</button>
+</div>
+<p id="end">Finished solving all questions. Thank you!</p>
+</body>
+</html>

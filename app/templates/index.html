@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no">
+  <meta name="keywords" content="experiment">
+  <meta name="description" content="experiment">
+  <meta property="og:title" content="experiment">
+  <meta property="og:url" content="">
+  <script src="{{ static_url('_dist/index.js') }}"></script>
+  <script src="{{ static_url('static/js/arfled.js') }}"></script>
+  <title>experiment</title>
+</head>
+<body>
+<ol start="0">
+  <h2>Eye tracking experiment</h2>
+  {% for t in texts %}
+    <li><a href="/doc/{{ t[0] }}/">{{ t[1] }}</a></li>
+  {% end %}
+</ol>
+</body>
+</html>
